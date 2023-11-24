@@ -28,7 +28,7 @@ require('./wrapper').load({
 }
 ```
 
-then use config `File Load Order`
+then use config [File Load Order](https://github.com/node-config/node-config/wiki/Configuration-Files#file-load-order)
 ```
 
 default.EXT
