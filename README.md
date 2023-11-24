@@ -2,7 +2,7 @@
 
 ```js
 
-require('./wrapper').load({
+require('config-aws-secret-adapter').load({
     file: "production.json",
     region: "us-east-1",
     secrets: [
