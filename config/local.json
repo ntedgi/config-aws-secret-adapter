@@ -1,3 +1,4 @@
 {
-    "db":"ss"
+    "service1_password": "123",
+    "service2_password": "234"
 }
