@@ -1,12 +1,10 @@
 const AWS = require('aws-sdk');
 const { SecretsManager } = require('aws-sdk');
-const config = require('config');
-const db = config.get('db')
 AWS.config.update({ region: 'us-east-1' });
 
 const secretsManager = new SecretsManager();
 
-const secretName = 'demand/github-actions/JFROG-USER-AND-PASS';
+const secretName = 'mobile_data_eng/airflow/connections/soomla_mem_prod';
 
 async function getSecret() {
     try {
@@ -14,6 +12,7 @@ async function getSecret() {
         if ('SecretString' in data) {
             const { SecretString } = data;
             console.log(SecretString)
+            console.log(data)
         }
     } catch (err) {
         console.error('Error retrieving secret:', err);
@@ -22,5 +21,3 @@ async function getSecret() {
 
 getSecret();
 
-
-console.log(db)
