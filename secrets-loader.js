@@ -1,22 +1,23 @@
-const { secrets } = require('./config/secrets.json')
 const { AWSSecretsManager } = require('./aws-secret-manager')
 
 class SecretsLoader {
     constructor(filePath, region) {
         this.filePath = filePath;
         this.region = region;
-        const sm = new AWSSecretsManager('us-east-1')
+        this.sm = new AWSSecretsManager(region)
 
     }
     async load() {
-        const { secrets } = require('./config/secrets.json')
+        const { secrets } = require(this.filePath);
         const parsedSecrets = secrets.map(secret => {
-            const { key, entry, type } = secret
-            return sm.getSecret(key, { type: type || 'raw' })
+            const { key, type } = secret;
+            return this.sm.getSecret(key, { type: type || 'raw' });
         })
-
-        const result = Promise.all(parsedSecrets).then(result1 => {
-            console.log(result1)
+        const awsSecrets = await Promise.all(parsedSecrets);
+        const result = {}
+        awsSecrets.forEach((secret, index) => {
+            const { entry } = secrets[index]
+            result[entry] = secret;
         })
         return result;
     }
@@ -24,3 +25,6 @@ class SecretsLoader {
 }
 
 
+module.exports = {
+    SecretsLoader
+}
