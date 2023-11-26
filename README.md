@@ -1,32 +1,45 @@
 # config-aws-secret-adapter
 
-```js
-
-require('config-aws-secret-adapter').load({
-    file: "production.json",
-    region: "us-east-1",
-    secrets: [
+```secrets.json
+{
+    "secrets": [
         {
-            key: "secret1",
-            entry: "service1_password"
+            "key": "bla/connections/airflow",
+            "entry": "airflow",
+            "type": "json"
         },
         {
-            key: "secret2",
-            entry: "service2_password"
+            "key": "bla/connections/service1",
+            "entry": "service1"
         }
     ]
-})
-
+}
 ```
 
 ==> production.json
 ```json
 
 {
-    "service1_password": "123",
-    "service2_password": "234"
+    "service1": "123",
+    "service2": "234"
 }
 ```
+
+```js
+const config = require('config)
+console.log(config.get('service1')) // 123
+const sl = new SecretsLoader('./config/secrets.json', 'us-east-1')
+sl.load().then(result => {
+    console.log(result)
+    config.extend(result)
+    console.log(config.get('service1')) // something from aws-secrets
+
+})
+
+
+
+```
+
 
 then use config [File Load Order](https://github.com/node-config/node-config/wiki/Configuration-Files#file-load-order)
 ```

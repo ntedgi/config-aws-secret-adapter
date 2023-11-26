@@ -6,8 +6,5 @@ const sl = new SecretsLoader('./config/secrets.json', 'us-east-1')
 sl.load().then(result => {
     console.log(result)
     config.extend(result)
-    const x = config.get('service1_password')
-    console.log(x)
-
 })
 
